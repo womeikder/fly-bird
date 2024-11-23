@@ -28,7 +28,6 @@ const app = createApp({
             './img/backgroud/airadventurelevel6.png'
         ])
 
-
         // 页面开始时小鸟的动画
         const Time = (id) => {
             timer = setInterval(() => {
@@ -54,8 +53,6 @@ const app = createApp({
  
         let timer = null
         onMounted(() => {
-
-
             // 首页相关
             if (!status.value) {
                 // 定时器一直不断更新鸟儿的状态
@@ -95,8 +92,6 @@ const app = createApp({
             });
         }
 
-
-
         // 选择宠物的键盘监听事件
         const keyInfo = ref()
         watch(status,(newValue) => {
@@ -104,7 +99,6 @@ const app = createApp({
                 setupKeyboardNavigation(selectionItem)
             } else if (status.value === 2) {
                 setupKeyboardNavigation(mapItem)
-                
             }
         },{
             deep: true,
@@ -124,15 +118,53 @@ const app = createApp({
             status.value = 3    
             clickButtonMusic()
 
-            const imagePath = `./img/background/airadventurelevel${mapItem.value + 1}.png`;
+            // 根据情况更换背景图片
+            const imagePath = `./img/backgroud/airadventurelevel${mapItem.value + 1}.png`;
+            const root =  document.querySelector('.background')
+            root.style.setProperty('--background-image-url', `url('${imagePath}')`); 
 
-            console.log(imagePath);
-            
-            
-            document.querySelector(':root').style.backgroundImage = imagePath
+            // 角色的定时器
+            const role = setInterval(() => {
+
+                // 设置角色的角度，并且设置一直下坠的效果
+                const gamerole = document.querySelector('.game-role')
+                const game = window.getComputedStyle(gamerole)
+                const deg = game.getPropertyValue('rotate').split('d')
+
+                if ( parseInt(deg[0]) < 65) {
+                    gamerole.style.rotate = `${parseInt(deg[0]) + 45}deg`
+                }
+                let top = game.getPropertyValue('top')
+                let topArr = top.split('p')
+                gamerole.style.top = `${parseInt(topArr[0]) + 100}px`
+
+            },300)
+
+            // 主游戏的角色监听事件
+            document.addEventListener('keydown', ev => {
+                // 根据情况来判断边界条件
+                switch (ev.key) {
+                    case 'ArrowUp':
+
+                        // 按下上键就让角色向上偏移并且角色角度也会发生变化
+                        const gamerole = document.querySelector('.game-role')
+                        const game = window.getComputedStyle(gamerole)
+                        let top = game.getPropertyValue('top')
+                        let topArr = top.split('p')
+                        gamerole.style.top = `${parseInt(topArr[0]) - 200}px`
+
+                        const deg = game.getPropertyValue('rotate').split('d')
+                        console.log(deg);
+                        
+                        if (parseInt(deg[0]) > 0 ) {
+                            gamerole.style.rotate = `${parseInt(deg[0]) - 90}deg`
+                        }
+                        break;
+                }
+            });
+
         }
-
-
+        
 
         // 跳转到选择地图那
         const confirm = () => {

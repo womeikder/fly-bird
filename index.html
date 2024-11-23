@@ -8,6 +8,7 @@
     <script type="module" src="index.js"></script>
 </head>
 <body>
+    <div class="background"></div>
     <div id="app">
 
         <!-- 首页 -->
@@ -57,7 +58,19 @@
 
         <!-- 游戏主页面 -->
         <div class="main" v-if="status === 3">
-
+            <!-- 管道的图片，随机高度，设置延迟 -->
+            <img 
+                class="pipe-img" 
+                :style="{
+                    animationDelay: `${item}s`,
+                    top: `${Math.floor(Math.random() * (260+1)) - 260}px`
+                }"
+                v-for="item in [1,5]" 
+                src="./img/pipe/column.png" 
+                alt=""
+            >
+            <!-- 游戏的角色 -->
+            <img src="./img/cat/animated-jazz-nyan.gif" class="game-role" alt="">
         </div>
 
         <audio id="switch-button"  src="./sound/switch3.mp3" type="audio/mpeg"></audio>

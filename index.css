@@ -1,18 +1,36 @@
-body {
+body,html {
     font-family: Arial, sans-serif;
     overflow: hidden;
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
-:root {
-    width: 100vw;
+.background {
+    position: absolute;
+    width: 200%;
     height: 100vh;
-    background-image: url('./img/backgroud/airadventurelevel1.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+    --background-image-url: url('./img/backgroud/airadventurelevel1.png');
+    background-image: var(--background-image-url) ;
+    background-repeat: repeat-x;
+    background-size: 57%;
+    animation: scroll 50s linear infinite;
+}
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
+#app {
+    position: relative; 
+    z-index: 1000; /* 设置较高的z-index以确保内容层覆盖背景 */
+
+}
 
 .start {
     width: 500px;
@@ -131,4 +149,34 @@ body {
     box-shadow: 0 0 25px #bf49e3;
     transition: all 0.2s;
     border-radius: 10px;
+}
+
+
+.main {
+    position: relative;
+}
+
+/* 管道图片的效果，设置的css动画无限循环 */
+.pipe-img {
+    position: absolute;
+    right: -100px; /* 初始位置在屏幕右侧外 */
+    top: -260px; /* 垂直居中 */
+    animation: movePipe 6s linear infinite; /* 应用动画 */
+  }
+  
+@keyframes movePipe {
+    0% {
+        right: -100px; /* 开始时在屏幕右侧外 */
+      }
+    100% {
+        right: 100vw; /* 移动到屏幕左侧外 */
+    }
+}
+.game-role {
+    position: absolute;
+    top: 50vh;
+    left: 200px;
+    width: 80px;
+    rotate: 0deg;
+    transition: all 1s;
 }
