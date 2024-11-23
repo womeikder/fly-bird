@@ -17,7 +17,6 @@
             <div class="button">
                 <button type="button" @click="begain" >开始游戏</button>
                 <button type="button" @click="role">选择角色</button>
-                <button type="button" @click="map">选择地图</button>
                 <button type="button" @click="quit">退出游戏</button>
             </div>
             <div class="copyright"><p>copyright</p></div>
@@ -35,14 +34,25 @@
             </div>
             <div class="next">
                 <button type="button" @click="callback">返回开始</button>
-            <button type="button" @click="config()">确认</button>
+                <button type="button" @click="confirm">确认</button>
             </div>
             
         </div>
 
         <!-- 选择地图 -->
         <div class="map" v-if="status === 2">
-
+            <div class="title">选择地图</div>
+            <div class="list">
+                <ul>
+                    <li style="margin: 5px 5px;" v-for="(item,index) in mapList">
+                        <img :src="item" alt="" :class="{ selection: mapItem === index ? true : false}">
+                    </li>
+                </ul>
+            </div>
+            <div class="next">
+                <button type="button" @click="backRole">返回角色</button>
+                <button type="button" @click="begain">开始游戏</button>
+            </div>
         </div>
 
         <!-- 游戏主页面 -->

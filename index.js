@@ -18,6 +18,16 @@ const app = createApp({
             './img/cat/animated-nyancoin.gif'
         ])
 
+        // 背景图片地址
+        const mapList = ref([
+            './img/backgroud/airadventurelevel1.png',
+            './img/backgroud/airadventurelevel2.png',
+            './img/backgroud/airadventurelevel3.png',
+            './img/backgroud/airadventurelevel4.png',
+            './img/backgroud/airadventurelevel5.png',
+            './img/backgroud/airadventurelevel6.png'
+        ])
+
 
         // 页面开始时小鸟的动画
         const Time = (id) => {
@@ -39,8 +49,9 @@ const app = createApp({
         // 选择宠物时判断当前选中宠物
         const selectionItem = ref(0)
 
-
-        
+        // 选择地图时候的选择参数
+        const mapItem = ref(0)
+ 
         let timer = null
         onMounted(() => {
 
@@ -53,49 +64,47 @@ const app = createApp({
         })
 
 
+        function setupKeyboardNavigation(selectionItem) {
+            document.addEventListener('keydown', ev => {
+                // 点击键盘后就会触发音效
+                document.querySelector('#shift-music').play();
+        
+                // 根据情况来判断边界条件
+                switch (ev.key) {
+                    case 'ArrowLeft':
+                        if (selectionItem.value !== 0 && selectionItem.value !== 3) {
+                            selectionItem.value -= 1;
+                        }
+                        break;
+                    case 'ArrowRight':
+                        if (selectionItem.value !== 2 && selectionItem.value !== 5) {
+                            selectionItem.value += 1;
+                        }
+                        break;
+                    case 'ArrowUp':
+                        if (selectionItem.value > 2) {
+                            selectionItem.value -= 3;
+                        }
+                        break;
+                    case 'ArrowDown':
+                        if (selectionItem.value < 3) {
+                            selectionItem.value += 3;
+                        }
+                        break;
+                }
+            });
+        }
+
+
 
         // 选择宠物的键盘监听事件
         const keyInfo = ref()
         watch(status,(newValue) => {
             if (status.value === 1) {
-                // 监听键盘事件
-                document.addEventListener('keydown',ev => {
-
-                    // 点击键盘后就会触发音效
-                    document.querySelector('#shift-music').play()
-
-                    // 根据情况来判断边界条件
-                    switch (ev.key) {
-                    case 'ArrowLeft':
-                        if (selectionItem.value === 0 || selectionItem.value === 3) {
-                            break
-                        } else {
-                            selectionItem.value -= 1
-                        }
-                        break
-                    case 'ArrowRight':
-                        if (selectionItem.value === 2 || selectionItem.value === 5) {
-                            break
-                        } else {
-                            selectionItem.value += 1
-                        }
-                        break
-                    case 'ArrowUp':
-                        if (selectionItem.value === 0 || selectionItem.value === 1 || selectionItem.value === 2) {
-                            break
-                        } else {
-                            selectionItem.value -= 3
-                        }
-                        break
-                    case 'ArrowDown':
-                        if (selectionItem.value === 3 || selectionItem.value === 4 || selectionItem.value === 5) {
-                            break
-                        } else {
-                            selectionItem.value += 3
-                        }
-                        break
-                    }
-                })
+                setupKeyboardNavigation(selectionItem)
+            } else if (status.value === 2) {
+                setupKeyboardNavigation(mapItem)
+                
             }
         },{
             deep: true,
@@ -109,11 +118,25 @@ const app = createApp({
         } 
 
 
-
         // 开始游戏
         const begain = () => {
             clearInterval(timer)
             status.value = 3    
+            clickButtonMusic()
+
+            const imagePath = `./img/background/airadventurelevel${mapItem.value + 1}.png`;
+
+            console.log(imagePath);
+            
+            
+            document.querySelector(':root').style.backgroundImage = imagePath
+        }
+
+
+
+        // 跳转到选择地图那
+        const confirm = () => {
+            status.value = 2
             clickButtonMusic()
         }
         // 选择宠物
@@ -122,12 +145,6 @@ const app = createApp({
             status.value = 1
             clickButtonMusic()
             selectionItem.value = 0
-        }
-        // 选择地图
-        const map = () => {
-            clearInterval(timer)
-            status.value = 2
-            clickButtonMusic()
         }
         // 退出游戏
         const quit = () => {
@@ -141,11 +158,16 @@ const app = createApp({
             Time('.bird')
             clickButtonMusic()
         }
+        // 返回角色
+        const backRole = () => {
+            status.value = 1
+            clickButtonMusic()
+        }
         
 
         // 将方法返回
         return {
-            status, begain, role, map, quit, roleList, selectionItem, callback
+            status, begain, role, quit, roleList, selectionItem, callback, confirm, mapList, backRole, mapItem
         }
     }
 });

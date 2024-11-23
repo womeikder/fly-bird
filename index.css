@@ -69,7 +69,7 @@ body {
     }
 }
 
-.role {
+.role, .map {
     .title {
         width: inherit;
         height: 50px;
@@ -79,15 +79,11 @@ body {
         font-weight: bold;
         color: white;
     }
-
-    
-
     .list {
         width: 65%;
         height: 80%;
         margin: 0 auto;
         ul {
-            
             padding: 0;
             li {
                 margin: 0 auto;
