@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 3 App</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="index.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <!-- 首页 -->
+        <div class="start" v-if="status === 0">
+            <div class="name">Fly-Bird</div>
+            <div class="bird" id="bird-back"></div>
+            <div class="button">
+                <button type="button" @click="begain" >开始游戏</button>
+                <button type="button" @click="role">选择角色</button>
+                <button type="button" @click="map">选择地图</button>
+                <button type="button" @click="quit">退出游戏</button>
+            </div>
+            <div class="copyright"><p>copyright</p></div>
+        </div>
+
+        <!-- 选择角色 -->
+        <div class="role" v-if="status === 1">
+            <div class="title">选择宠物</div>
+            <div class="list">
+                <ul>
+                    <li v-for="(item,index) in roleList">
+                        <img :src="item" alt="" :class="{ selection: selectionItem === index ? true : false}">
+                    </li>
+                </ul>
+            </div>
+            <div class="next">
+                <button type="button" @click="callback">返回开始</button>
+            <button type="button" @click="config()">确认</button>
+            </div>
+            
+        </div>
+
+        <!-- 选择地图 -->
+        <div class="map" v-if="status === 2">
+
+        </div>
+
+        <!-- 游戏主页面 -->
+        <div class="main" v-if="status === 3">
+
+        </div>
+
+        <audio id="switch-button"  src="./sound/switch3.mp3" type="audio/mpeg"></audio>
+        <audio id="start-background" src="./sound/POL-catch-them-all-short.wav" type="audio/mpeg"></audio>
+        <audio id="main-background" src="./sound/POL-flight-master-short.wav" type="audio/mpeg"></audio>
+        <audio id="shift-music" src="./sound/Coin.wav" type="audio/mpeg"></audio>
+        <audio id="hit-dead" src="./sound/Hit_Hurt.wav" type="audio/mpeg"></audio>
+
+    </div>
+</body>
+</html> 
